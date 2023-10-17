@@ -19,17 +19,17 @@
 연령 : 25
 
 선수 번호 : 5
-선수이름 : Son-Heungmin
+선수이름 : Son-Heung min
 소속팀 : Spurs
 연령 : 31
 
 선수 번호 : 6
-선수이름 : debruyne
-소속팀 : ManCity
+선수이름 : K.Debruyne
+소속팀 : Mancity
 연령 : 30
 
 선수 번호 : 7
-선수이름 : Salah
+선수이름 : M.Salah
 소속팀 : Liverpool
 연령 : 32
 
@@ -124,7 +124,7 @@
 연령 : 24
 
 선수 번호 : 26
-선수이름 : Odegorrd
+선수이름 : M.Odegorrd
 소속팀 : Arsnal
 연령 : 28
 
@@ -169,7 +169,7 @@
 연령 : 22
 
 선수 번호 : 35
-선수이름 : Zinchenko
+선수이름 : O.Zinchenko
 소속팀 : Arsnal
 연령 : 28
 
@@ -207,4 +207,54 @@
 선수이름 : J.Musiala
 소속팀 : Munchen
 연령 : 20
+
+선수 번호 : 43
+선수이름 : T.Silva
+소속팀 : Chelsea
+연령 : 38
+
+선수 번호 : 44
+선수이름 : P.Foden
+소속팀 : Mancity
+연령 : 24
+
+선수 번호 : 45
+선수이름 : D.Rice
+소속팀 : Arsnal
+연령 : 27
+
+선수 번호 : 46
+선수이름 : L.Sane
+소속팀 : Munchen
+연령 : 28
+
+선수 번호 : 47
+선수이름 : S.Romero
+소속팀 : Spurs
+연령 : 26
+
+선수 번호 : 48
+선수이름 : A.Griezman
+소속팀 : ATM
+연령 : 31
+
+선수 번호 : 49
+선수이름 : J.Oblack
+소속팀 : ATM
+연령 : 32
+
+선수 번호 : 50
+선수이름 : T.Hernandez
+소속팀 : AC Milan
+연령 : 27
+
+선수 번호 : 51
+선수이름 : L.Hernandez
+소속팀 : Paris
+연령 : 27
+
+선수 번호 : 52
+선수이름 : Rodri
+소속팀 : Mancity
+연령 : 26
 

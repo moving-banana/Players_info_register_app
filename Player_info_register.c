@@ -30,6 +30,12 @@ bool EscPressed() {
     return false;
 }
 
+// 버퍼를 비워주는 함수
+void clearBuffer() {
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
+}
+
 // 터미널을 새로 그려주는 함수
 void clearScreen() {
     printf("\033[H\033[J"); // ANSI 이스케이프 시퀀스로 화면 지우기
@@ -43,40 +49,28 @@ void updatePlayer();
 // 신규선수 정보 입력
 void registerNewplayer(){
     int overlap = false; // 중복확인
-    char choice[10] = {0};
 
-    while (1)
-    {
-        // 정보 입력
-        printf("신규선수 정보 입력\n");
+    // 정보 입력
+    printf("\n신규선수 정보 입력\n");
 
-        printf("선수 번호: ");
-        scanf("%d", &players[playerCount].playerNum);
-        getchar();
+    // 새로운 선수 정보를 입력받았으므로 playerCount를 사용하여 선수 번호를 자동으로 할당합니다.
+    players[playerCount].playerNum = playerCount + 1;
 
-        printf("선수이름: ");
-        fgets(players[playerCount].player, sizeof(players[playerCount].player), stdin);
-        players[playerCount].player[strcspn(players[playerCount].player, "\n")] = '\0';
+    printf("선수이름: ");
+    fgets(players[playerCount].player, sizeof(players[playerCount].player), stdin);
+    players[playerCount].player[strcspn(players[playerCount].player, "\n")] = '\0';
 
-        printf("소속팀: ");
-        fgets(players[playerCount].team, sizeof(players[playerCount].team), stdin);
-        players[playerCount].team[strcspn(players[playerCount].team, "\n")] = '\0';
+    printf("소속팀: ");
+    fgets(players[playerCount].team, sizeof(players[playerCount].team), stdin);
+    players[playerCount].team[strcspn(players[playerCount].team, "\n")] = '\0';
 
-        printf("연령: ");
-        scanf("%d", &players[playerCount].age);
-        getchar();
+    printf("연령: ");
+    scanf("%d", &players[playerCount].age);
+    getchar();
+    getchar();
 
-        // 새로운 선수 정보를 입력받았으므로 playerCount를 증가시킴
-        playerCount++;
-
-        printf("계속 입력하시겠습니까? (yes/no): ");
-        fgets(choice, sizeof(choice), stdin);
-        choice[strcspn(choice, "\n")] = '\0';
-
-        if (strcmp(choice, "no") == 0) {
-            break;
-        }
-    }
+    // 새로운 선수 정보를 입력했으므로 playerCount를 증가시킴
+    playerCount++;
 
     // 선수 번호 순서대로 정렬 (버블 정렬 사용)
     for (int i = 0; i < playerCount - 1; i++) {
@@ -89,13 +83,13 @@ void registerNewplayer(){
         }
     }
 
-    // 중복되는 선수 번호가 있는지 체크
+    // 중복되는 선수 이름이 있는지 체크
     for (int i = 0; i < playerCount - 1; i++) {
         for (int j = i + 1; j < playerCount; j++) {
-            if (players[i].playerNum == players[j].playerNum) {
+            if(players[i].player == players[j].player) {
                 overlap = true;
-                printf("중복된 번호가 있습니다. 확인하여 주세요!\n");
-                printf("중복된 선수의 정보:\n");
+                printf("중복된 이름이 있습니다. 확인하여 주세요!\n");
+                printf("중복된 선수의 정보\n");
                 printf("중복된 선수의 번호: %d\n", j);
                 for (int k = i; k <= j; k++) {
                     printf("선수 번호: %d\n", players[k].playerNum);
@@ -113,13 +107,13 @@ void registerNewplayer(){
         }
     }
 
-    // 중복이 있으면 메세지 츌력후 제거 함수호출
+    // 중복이 있으면 메세지 출력후 제거 함수호출
     if (overlap == true) {
         delPlayer();
         overlap = false;
     }
     else {
-        printf("중복된 번호가 없습니다!\n");
+        printf("새로운 선수가 등록되었습니다!\n");
     }
 
     // 모든 데이터를 다시 파일에 저장
@@ -134,7 +128,15 @@ void registerNewplayer(){
         fclose(file);
     }
 
-    printf("등록된 선수의 수 : %d\n", playerCount);
+    printf("명단에 등록된 모든 선수의 수 : %d\n", playerCount);
+
+    printf("검색모드로 돌아가려면 ESC 를 입력하세요\n");
+    printf("(계속 등록하려면 아무키나 눌러주세요)\n");
+
+    if (EscPressed()) {
+        updatePlayer();
+    }
+    registerNewplayer();
 }
 
 // 선수정보 삭제
@@ -145,6 +147,7 @@ void delPlayer(){
 
     printf("삭제할 선수 번호를 입력하세요: ");
     scanf("%d", &deleteplayerNum);
+    getchar();
 
     // 삭제할 선수 번호를 찾아 해당 선수 정보 삭제
     for (int i = 0; i < playerCount; i++) {
@@ -198,41 +201,43 @@ void searchPlayerName() {
     char researchname[10] = {0};
     bool foundName = false;
 
-    printf("선수 이름 입력\n");
-    fgets(namesearch, sizeof(namesearch), stdin);
-    namesearch[strcspn(namesearch, "\n")] = '\0';
+    while(1){
+        printf("선수 이름 입력\n");
+        fgets(namesearch, sizeof(namesearch), stdin);
+        namesearch[strcspn(namesearch, "\n")] = '\0';
 
-    for (int i = 0; i < playerCount; i++) {
-        if (strcmp(namesearch, players[i].player) == 0) {
-            printf("%s 선수의 정보\n", players[i].player);
-            printf("-----------------\n");
-            printf("선수 번호 : %d\n", players[i].playerNum);
-            printf("선수이름 : %s\n", players[i].player);
-            printf("소속팀 : %s\n", players[i].team);
-            printf("연령 : %d\n", players[i].age);
-            printf("-----------------\n");
-            foundName = true;
+       for (int i = 0; i < playerCount; i++) {
+            if (strcmp(namesearch, players[i].player) == 0) {
+                printf("%s 선수의 정보\n", players[i].player);
+                printf("-----------------\n");
+                printf("선수 번호 : %d\n", players[i].playerNum);
+                printf("선수이름 : %s\n", players[i].player);
+                printf("소속팀 : %s\n", players[i].team);
+                printf("연령 : %d\n", players[i].age);
+                printf("-----------------\n");
+                foundName = true;
+            }
         }
-    }
 
-    if (!foundName) {
-        printf("일치하는 선수가 없습니다!\n");
-        printf("계속 입력하시겠습니까? (yes/no) \n");
-        fgets(researchname, sizeof(researchname), stdin);
-        researchname[strcspn(researchname, "\n")] = '\0';
+        if (!foundName) {
+            printf("일치하는 선수가 없습니다!\n");
+            printf("계속 입력하시겠습니까? (yes/no) \n");
+            fgets(researchname, sizeof(researchname), stdin);
+            researchname[strcspn(researchname, "\n")] = '\0';
 
-        if (strcmp(researchname, "yes") == 0) {
-            searchPlayerName(); // 재귀적으로 함수 호출하여 다시 검색
+            if (strcmp(researchname, "yes") == 0) {
+                searchPlayerName(); // 재귀적으로 함수 호출하여 다시 검색
+            }
+            else{
+                searchPlayer();
+            }
         }
-        else{
+
+        printf("검색모드로 돌아가려면 ESC 를 입력하세요\n");
+        printf("(계속 검색하려면 아무키나 눌러주세요)\n");
+        if (EscPressed()) {
             searchPlayer();
         }
-    }
-
-    printf("검색모드로 돌아가려면 ESC 를 입력하세요\n");
-    printf("(계속 검색하려면 아무키나 눌러주세요)\n");
-    if (EscPressed()) {
-        searchPlayer();
     }
 }
 
@@ -358,7 +363,7 @@ void searchPlayer(){
 
 // 선수정보 수정
 void modifyPlayerData() {
-    int choice;
+    int choice = 0;
     char search[MAX_NAME_LEN] = {0};
     bool foundPlayer = false;
 
@@ -370,14 +375,16 @@ void modifyPlayerData() {
     for (int i = 0; i < playerCount; i++) {
         if (atoi(search) == players[i].playerNum) {
             foundPlayer = true;
+
+            printf("-----------------\n");
             printf("선수 번호 : %d\n", players[i].playerNum);
             printf("선수이름 : %s\n", players[i].player);
             printf("소속팀 : %s\n", players[i].team);
             printf("연령 : %d\n", players[i].age);
             printf("-----------------\n");
 
-            // 수정 여부 확인
-            printf("수정하시겠습니까? (1: 예, 2: 아니오): ");
+            // 수정,삭제 여부 확인
+            printf("수정 혹은 삭제하시겠습니까? (1: 수정, 2: 삭제, 3:아니요): ");
             scanf("%d", &choice);
             getchar(); // 개행 문자 처리
 
@@ -408,7 +415,11 @@ void modifyPlayerData() {
                 }
 
                 printf("선수 정보가 수정되었습니다.\n");
-            } else {
+            } 
+            else if (choice == 2){
+                delPlayer();
+            }
+            else {
                 printf("선수 정보 수정을 취소합니다.\n");
             }
             break;
@@ -427,7 +438,7 @@ void modifyPlayerData() {
                 printf("-----------------\n");
 
                 // 수정 여부 확인
-                printf("수정하시겠습니까? (1: 예, 2: 아니오): ");
+                printf("수정 혹은 삭제하시겠습니까? (1: 수정, 2: 삭제, 3:아니요): ");
                 scanf("%d", &choice);
                 getchar(); // 개행 문자 처리
 
@@ -473,27 +484,32 @@ void modifyPlayerData() {
 
 // 선수목록 관리
 void managementPlayerLi(){
-    char checklist[10] = {0};
-    printf("선수정보를 수정 혹은 삭제를 합니다.\n");
-    printf("(선수목록을 확인 하시겠습니까? (yes/no))\n");
+    while(1){
+        char checklist[10] = {0};
 
-    fgets(checklist, sizeof(checklist), stdin);
-    checklist[strcspn(checklist, "\n")] = '\0';
-    if (strcmp(checklist, "yes") == 0) {
-        for (int i = 0; i < playerCount; i++) {
-            printf("-----------------\n");
-            printf("선수 번호 : %d\n", players[i].playerNum);
-            printf("선수이름 : %s\n", players[i].player);
-            printf("소속팀 : %s\n", players[i].team);
-            printf("연령 : %d\n", players[i].age);
-            printf("-----------------\n");
+        printf("\n");
+        printf("     <--선수목록 관리-->\n");
+        printf("선수정보를 수정 혹은 삭제를 합니다.\n");
+        printf("(선수목록을 확인 하시겠습니까? (yes/no))\n");
+
+        fgets(checklist, sizeof(checklist), stdin);
+        checklist[strcspn(checklist, "\n")] = '\0';
+        if (strcmp(checklist, "yes") == 0) {
+            for (int i = 0; i < playerCount; i++) {
+                printf("-----------------\n");
+                printf("선수 번호 : %d\n", players[i].playerNum);
+                printf("선수이름 : %s\n", players[i].player);
+                printf("소속팀 : %s\n", players[i].team);
+                printf("연령 : %d\n", players[i].age);
+                printf("-----------------\n");
+            }
         }
-    }
-    modifyPlayerData();
-    printf("검색모드로 돌아가려면 ESC 를 입력하세요\n");
-    printf("(계속 검색하려면 아무키나 눌러주세요)\n");
-    if (EscPressed()) {
-        updatePlayer();
+        modifyPlayerData();
+        printf("검색모드로 돌아가려면 ESC 를 입력하세요\n");
+        printf("(계속 검색하려면 아무키나 눌러주세요)\n");
+        if (EscPressed()) {
+            updatePlayer();
+        }
     }
 }
 
@@ -529,11 +545,11 @@ void updatePlayer(){
     }
 }
 
+// 초기 모드 선택
 void modSelect(){
     int modchoose = 0;
 	// bool flag = true;
 
-    clearScreen();
     printf("\033[1m\n"); //굵은글자
     printf("명단 관리 프로그램!!\n\n");
     printf("\033[0m");
@@ -557,12 +573,9 @@ void modSelect(){
         default:
             printf("올바른 메뉴를 선택하세요.\n");
     }
-    
 }
 
-int main()
-{
-    clearScreen();
+int main(){
     // 프로그램 시작후 기존 데이터 로드
     file = fopen("player_data.txt", "rt");
     if (file != NULL) {
@@ -575,7 +588,31 @@ int main()
         }
         fclose(file);
     }
-    printf("playercount = %d\n", playerCount);
+
+    // 정렬중 빈 번호가 있으면 채워넣기
+    int currentNumber = 1; // 현재 선수 번호
+    for (int i = 0; i < playerCount; i++) {
+        // 현재 선수의 번호가 현재 번호와 같으면 다음 번호로 증가
+        while (players[i].playerNum > currentNumber) {
+            // 빈 선수 번호를 발견하면 할당
+            players[i].playerNum = currentNumber;
+        }
+        // 선수 번호를 증가시킴
+        currentNumber++;
+    }
+
+    // 모든 데이터를 다시 파일에 저장
+    file = fopen("player_data.txt", "wt");
+    if (file != NULL) {
+        for (int i = 0; i < playerCount; i++) {
+            fprintf(file, "선수 번호 : %d\n", players[i].playerNum);
+            fprintf(file, "선수이름 : %s\n", players[i].player);
+            fprintf(file, "소속팀 : %s\n", players[i].team);
+            fprintf(file, "연령 : %d\n\n", players[i].age);
+        }
+        fclose(file);
+    }
+
     modSelect();
     return 0;
 }
