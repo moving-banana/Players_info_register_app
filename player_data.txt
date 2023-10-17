@@ -69,9 +69,9 @@
 연령 : 30
 
 선수 번호 : 15
-선수이름 : Valverde
+선수이름 : F.Valverde
 소속팀 : Real
-연령 : 22
+연령 : 24
 
 선수 번호 : 16
 선수이름 : Dias
@@ -99,9 +99,9 @@
 연령 : 32
 
 선수 번호 : 21
-선수이름 : Muller
+선수이름 : T.Muller
 소속팀 : Munchen
-연령 : 34
+연령 : 35
 
 선수 번호 : 22
 선수이름 : Gnabry
@@ -187,4 +187,24 @@
 선수이름 : M.De light
 소속팀 : Munchen
 연령 : 26
+
+선수 번호 : 39
+선수이름 : Hakimi
+소속팀 : Paris
+연령 : 28
+
+선수 번호 : 40
+선수이름 : Lee-Kang in
+소속팀 : Paris
+연령 : 20
+
+선수 번호 : 41
+선수이름 : D.Upamecano
+소속팀 : Munchen
+연령 : 25
+
+선수 번호 : 42
+선수이름 : J.Musiala
+소속팀 : Munchen
+연령 : 20
 
