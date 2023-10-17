@@ -1,0 +1,190 @@
+선수 번호 : 1
+선수이름 : Messi
+소속팀 : Miami
+연령 : 37
+
+선수 번호 : 2
+선수이름 : Ronaldo
+소속팀 : Al Nasr
+연령 : 38
+
+선수 번호 : 3
+선수이름 : Ruddger
+소속팀 : Real
+연령 : 31
+
+선수 번호 : 4
+선수이름 : Mbappe
+소속팀 : Paris
+연령 : 25
+
+선수 번호 : 5
+선수이름 : Son-Heungmin
+소속팀 : Spurs
+연령 : 31
+
+선수 번호 : 6
+선수이름 : debruyne
+소속팀 : ManCity
+연령 : 30
+
+선수 번호 : 7
+선수이름 : Salah
+소속팀 : Liverpool
+연령 : 32
+
+선수 번호 : 8
+선수이름 : Maddison
+소속팀 : Spurs
+연령 : 27
+
+선수 번호 : 9
+선수이름 : Haaland
+소속팀 : Mancity
+연령 : 22
+
+선수 번호 : 10
+선수이름 : Bellingham
+소속팀 : Real
+연령 : 20
+
+선수 번호 : 11
+선수이름 : Vinicious
+소속팀 : Real
+연령 : 21
+
+선수 번호 : 12
+선수이름 : Kroos
+소속팀 : Real
+연령 : 34
+
+선수 번호 : 13
+선수이름 : Modric
+소속팀 : Real
+연령 : 38
+
+선수 번호 : 14
+선수이름 : Casemiro
+소속팀 : Man.utd
+연령 : 30
+
+선수 번호 : 15
+선수이름 : Valverde
+소속팀 : Real
+연령 : 22
+
+선수 번호 : 16
+선수이름 : Dias
+소속팀 : Mancity
+연령 : 24
+
+선수 번호 : 17
+선수이름 : Koman
+소속팀 : Munchen
+연령 : 27
+
+선수 번호 : 18
+선수이름 : Camavinga
+소속팀 : Real
+연령 : 22
+
+선수 번호 : 19
+선수이름 : Rewandovski
+소속팀 : Barcelona
+연령 : 34
+
+선수 번호 : 20
+선수이름 : Neymar
+소속팀 : Al Hilal
+연령 : 32
+
+선수 번호 : 21
+선수이름 : Muller
+소속팀 : Munchen
+연령 : 34
+
+선수 번호 : 22
+선수이름 : Gnabry
+소속팀 : Munchen
+연령 : 28
+
+선수 번호 : 23
+선수이름 : Saka
+소속팀 : Arsnal
+연령 : 22
+
+선수 번호 : 24
+선수이름 : Kimmich
+소속팀 : Munchen
+연령 : 28
+
+선수 번호 : 25
+선수이름 : A.Davis
+소속팀 : Munchen
+연령 : 24
+
+선수 번호 : 26
+선수이름 : Odegorrd
+소속팀 : Arsnal
+연령 : 28
+
+선수 번호 : 27
+선수이름 : Rashford
+소속팀 : Man.utd
+연령 : 26
+
+선수 번호 : 28
+선수이름 : D.Alaba
+소속팀 : Real
+연령 : 32
+
+선수 번호 : 29
+선수이름 : K.Havertz
+소속팀 : Arsnal
+연령 : 26
+
+선수 번호 : 30
+선수이름 : Rodrigo
+소속팀 : Real
+연령 : 24
+
+선수 번호 : 31
+선수이름 : R.Varane
+소속팀 : Man.utd
+연령 : 30
+
+선수 번호 : 32
+선수이름 : Mitoma
+소속팀 : Brighton
+연령 : 28
+
+선수 번호 : 33
+선수이름 : T.Alexander
+소속팀 : Liverpool
+연령 : 27
+
+선수 번호 : 34
+선수이름 : Tchouameni
+소속팀 : Real
+연령 : 22
+
+선수 번호 : 35
+선수이름 : Zinchenko
+소속팀 : Arsnal
+연령 : 28
+
+선수 번호 : 36
+선수이름 : D.Carvajal
+소속팀 : Real
+연령 : 30
+
+선수 번호 : 37
+선수이름 : F.De yong
+소속팀 : Barcelona
+연령 : 24
+
+선수 번호 : 38
+선수이름 : M.De light
+소속팀 : Munchen
+연령 : 26
+
