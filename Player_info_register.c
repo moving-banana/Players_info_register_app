@@ -17,7 +17,8 @@ typedef struct playerLi
 
 PlayerLi players[MAX_PLAYERS] = {0};
 int playerCount = 0;
-FILE *file;
+FILE *playerfile;
+FILE *txtfile;
 
 // ESC키 입력시 동작 함수
 bool EscPressed() {
@@ -117,15 +118,15 @@ void registerNewplayer(){
     }
 
     // 모든 데이터를 다시 파일에 저장
-    file = fopen("player_data.txt", "wt");
-    if (file != NULL) {
+    playerfile = fopen("player_data.txt", "wt");
+    if (playerfile != NULL) {
         for (int i = 0; i < playerCount; i++) {
-            fprintf(file, "선수 번호 : %d\n", players[i].playerNum);
-            fprintf(file, "선수이름 : %s\n", players[i].player);
-            fprintf(file, "소속팀 : %s\n", players[i].team);
-            fprintf(file, "연령 : %d\n\n", players[i].age);
+            fprintf(playerfile, "선수 번호 : %d\n", players[i].playerNum);
+            fprintf(playerfile, "선수이름 : %s\n", players[i].player);
+            fprintf(playerfile, "소속팀 : %s\n", players[i].team);
+            fprintf(playerfile, "연령 : %d\n\n", players[i].age);
         }
-        fclose(file);
+        fclose(playerfile);
     }
 
     printf("명단에 등록된 모든 선수의 수 : %d\n", playerCount);
@@ -199,14 +200,17 @@ void searchPlayerNum(){
 void searchPlayerName() {
     char namesearch[MAX_NAME_LEN] = {0};
     char researchname[10] = {0};
-    bool foundName = false;
 
     while(1){
-        printf("선수 이름 입력\n");
+        bool correctName = false;
+        bool foundName = false;
+        bool foundPlayer = false;
+        printf("\n<--선수 이름 입력-->\n");
+        printf(" 입력 ▶ ");
         fgets(namesearch, sizeof(namesearch), stdin);
         namesearch[strcspn(namesearch, "\n")] = '\0';
 
-       for (int i = 0; i < playerCount; i++) {
+        for (int i = 0; i < playerCount; i++) {
             if (strcmp(namesearch, players[i].player) == 0) {
                 printf("%s 선수의 정보\n", players[i].player);
                 printf("-----------------\n");
@@ -215,11 +219,58 @@ void searchPlayerName() {
                 printf("소속팀 : %s\n", players[i].team);
                 printf("연령 : %d\n", players[i].age);
                 printf("-----------------\n");
-                foundName = true;
+                correctName = false;
+                foundPlayer = false;
+                foundName = false;
+            }
+            else {
+                correctName = true;
             }
         }
 
-        if (!foundName) {
+        if (correctName) {
+            int matchedChars = 0;
+            for (int i = 0; i < playerCount; i++) {
+                for (int j = 0; j < strlen(namesearch) && namesearch[j] != '\0'; j++) {
+                    if (namesearch[j] == players[i].player[j]) {
+                        matchedChars++;
+                    }
+                }
+                if (matchedChars >= 5) {
+                    foundPlayer = true;
+                    foundName = false;
+                }
+                else {
+                    foundPlayer = false;
+                    foundName = true;
+                }
+            }
+        }
+
+        // 이름에서 일부 알파벳이 일치하는 선수 정보 검색
+        if (foundPlayer) {
+            printf("\n<--유사한 이름을 가진 선수들의 정보-->\n");
+            for (int i = 0; i < playerCount; i++) {
+                int matchedChars = 0;
+                for (int j = 0; j < strlen(namesearch) && namesearch[j] != '\0'; j++) {
+                    if (namesearch[j] == players[i].player[j]) {
+                        matchedChars++;
+                    }
+                }
+                if (matchedChars >= 3) { // 이름에서 3개 이상의 알파벳이 일치하는 경우 출력
+                    printf("\n%s 선수의 정보\n", players[i].player);
+                    printf("-----------------\n");
+                    printf("선수 번호: %d\n", players[i].playerNum);
+                    printf("소속팀: %s\n", players[i].team);
+                    printf("연령: %d\n", players[i].age);
+                    printf("-----------------\n");
+                    foundPlayer = false;
+                }
+            }
+        }
+
+        if (foundName) {
+            foundName = false;
             printf("일치하는 선수가 없습니다!\n");
             printf("계속 입력하시겠습니까? (yes/no) \n");
             fgets(researchname, sizeof(researchname), stdin);
@@ -324,6 +375,7 @@ void searchPlayerTeam(){
     if (EscPressed()) {
         searchPlayer();
     }
+    searchPlayerTeam();
 }
 
 // 선수정보 검색모드 선택
@@ -403,15 +455,15 @@ void modifyPlayerData() {
                 getchar(); // 개행 문자 처리
 
                 // 파일에 수정된 선수 정보를 다시 쓰기
-                file = fopen("player_data.txt", "wt");
-                if (file != NULL) {
+                playerfile = fopen("player_data.txt", "wt");
+                if (playerfile != NULL) {
                     for (int i = 0; i < playerCount; i++) {
-                        fprintf(file, "선수 번호 : %d\n", players[i].playerNum);
-                        fprintf(file, "선수이름 : %s\n", players[i].player);
-                        fprintf(file, "소속팀 : %s\n", players[i].team);
-                        fprintf(file, "연령 : %d\n\n", players[i].age);
+                        fprintf(playerfile, "선수 번호 : %d\n", players[i].playerNum);
+                        fprintf(playerfile, "선수이름 : %s\n", players[i].player);
+                        fprintf(playerfile, "소속팀 : %s\n", players[i].team);
+                        fprintf(playerfile, "연령 : %d\n\n", players[i].age);
                     }
-                    fclose(file);
+                    fclose(playerfile);
                 }
 
                 printf("선수 정보가 수정되었습니다.\n");
@@ -457,15 +509,15 @@ void modifyPlayerData() {
                     getchar(); // 개행 문자 처리
 
                     // 파일에 수정된 선수 정보를 다시 쓰기
-                    file = fopen("player_data.txt", "wt");
-                    if (file != NULL) {
+                    playerfile = fopen("player_data.txt", "wt");
+                    if (playerfile != NULL) {
                         for (int i = 0; i < playerCount; i++) {
-                            fprintf(file, "선수 번호 : %d\n", players[i].playerNum);
-                            fprintf(file, "선수이름 : %s\n", players[i].player);
-                            fprintf(file, "소속팀 : %s\n", players[i].team);
-                            fprintf(file, "연령 : %d\n\n", players[i].age);
+                            fprintf(playerfile, "선수 번호 : %d\n", players[i].playerNum);
+                            fprintf(playerfile, "선수이름 : %s\n", players[i].player);
+                            fprintf(playerfile, "소속팀 : %s\n", players[i].team);
+                            fprintf(playerfile, "연령 : %d\n\n", players[i].age);
                         }
-                        fclose(file); // 파일을 닫아 변경 사항을 저장
+                        fclose(playerfile); // 파일을 닫아 변경 사항을 저장
                     }
 
                     printf("선수 정보가 수정되었습니다.\n");
@@ -568,6 +620,13 @@ void modSelect(){
             updatePlayer();
             break;
         case 3:
+            printf("데이터를 저장한 후 프로그램을 종료합니다!\n");
+            printf("3\n");
+            sleep(1);
+            printf("2\n");
+            sleep(1);
+            printf("1\n");
+            sleep(1);
             exit(0);
             break;
         default:
@@ -577,16 +636,16 @@ void modSelect(){
 
 int main(){
     // 프로그램 시작후 기존 데이터 로드
-    file = fopen("player_data.txt", "rt");
-    if (file != NULL) {
-        while (fscanf(file, "선수 번호 : %d\n", &players[playerCount].playerNum) == 1)
+    playerfile = fopen("player_data.txt", "rt");
+    if (playerfile != NULL) {
+        while (fscanf(playerfile, "선수 번호 : %d\n", &players[playerCount].playerNum) == 1)
         {
-            fscanf(file, "선수이름 : %[^\n]\n", players[playerCount].player); // 띄어쓰기를 포함하기 위해
-            fscanf(file, "소속팀 : %[^\n]\n", players[playerCount].team);
-            fscanf(file, "연령 : %d\n\n", &players[playerCount].age);
+            fscanf(playerfile, "선수이름 : %[^\n]\n", players[playerCount].player); // 띄어쓰기를 포함하기 위해
+            fscanf(playerfile, "소속팀 : %[^\n]\n", players[playerCount].team);
+            fscanf(playerfile, "연령 : %d\n\n", &players[playerCount].age);
             playerCount++;
         }
-        fclose(file);
+        fclose(playerfile);
     }
 
     // 정렬중 빈 번호가 있으면 채워넣기
@@ -602,16 +661,30 @@ int main(){
     }
 
     // 모든 데이터를 다시 파일에 저장
-    file = fopen("player_data.txt", "wt");
-    if (file != NULL) {
+    playerfile = fopen("player_data.txt", "wt");
+    if (playerfile != NULL) {
         for (int i = 0; i < playerCount; i++) {
-            fprintf(file, "선수 번호 : %d\n", players[i].playerNum);
-            fprintf(file, "선수이름 : %s\n", players[i].player);
-            fprintf(file, "소속팀 : %s\n", players[i].team);
-            fprintf(file, "연령 : %d\n\n", players[i].age);
+            fprintf(playerfile, "선수 번호 : %d\n", players[i].playerNum);
+            fprintf(playerfile, "선수이름 : %s\n", players[i].player);
+            fprintf(playerfile, "소속팀 : %s\n", players[i].team);
+            fprintf(playerfile, "연령 : %d\n\n", players[i].age);
         }
-        fclose(file);
+        fclose(playerfile);
     }
+
+    // 메인화면 TXT파일 열기
+    char character = 0;
+    txtfile = fopen("reference.txt", "r");
+    if (txtfile == NULL) {
+        printf("파일을 열 수 없습니다.\n");
+        return 1;
+    }
+    // 파일에서 문자 하나씩 읽어와서 출력
+    while ((character = fgetc(txtfile)) != EOF) {
+        printf("%c", character);
+    }
+    // 파일 닫기
+    fclose(txtfile);
 
     modSelect();
     return 0;

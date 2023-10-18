@@ -44,7 +44,7 @@
 연령 : 22
 
 선수 번호 : 10
-선수이름 : Bellingham
+선수이름 : J.Bellingham
 소속팀 : Real
 연령 : 20
 
@@ -89,9 +89,9 @@
 연령 : 22
 
 선수 번호 : 19
-선수이름 : Rewandovski
+선수이름 : R.Rewandovski
 소속팀 : Barcelona
-연령 : 34
+연령 : 36
 
 선수 번호 : 20
 선수이름 : Neymar
@@ -257,4 +257,19 @@
 선수이름 : Rodri
 소속팀 : Mancity
 연령 : 26
+
+선수 번호 : 53
+선수이름 : J.Gvardiol
+소속팀 : Mancity
+연령 : 24
+
+선수 번호 : 54
+선수이름 : Hwang-Heechan
+소속팀 : Woolves
+연령 : 28
+
+선수 번호 : 55
+선수이름 : S.Mane
+소속팀 : Al Nasr
+연령 : 28
 
